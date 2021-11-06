@@ -13,28 +13,120 @@
             
           }
           form.classList.add('was-validated')
-          event.preventDefault();
+          
 
 
 
         }, false)
       })
 })() 
+const store = {
+  init(){
 
-const transGanho = [
- 
-]
+    localStorage.setItem('Ganho', JSON.stringify([]))
+    localStorage.setItem('Despesa', JSON.stringify([]))
 
-const transDespesa = [
+  },
+  Get(){
+    const data1 = localStorage.getItem('Ganho')
+    const newdata1 = JSON.parse(data1)
+
+    const data2 = localStorage.getItem('Despesa')
+    const newdata2 = JSON.parse(data2)
+
+
+    return [newdata1, newdata2 ] 
+  },
+
+  Put(value){
+    
+    const verify = ()=>{
+      if (localStorage.length == 0) {
+        this.init()
+      }
+     }
+    
+     const get = ()=>{
+       const data = localStorage.getItem('Ganho')
+       const data2 = localStorage.getItem('Despesa')
+       
+       const newdata = JSON.parse(data)
+       const newdata2 = JSON.parse(data2)
+       
+       return [newdata , newdata2]
+     }
+
+     const Action = (value)=>{
+      const data = get()[0]
+      const data2 = get()[1]
+      
+      const valor = value
+
+      if (valor.Tipo=='ganho') {
+        
+        data.push(valor)
+        localStorage.setItem('Ganho' , JSON.stringify(data))
+        
+        
+
+      } else {
+
+        data2.push(valor)
+         
+        localStorage.setItem('Despesa' , JSON.stringify(data2))
+        return data2
+      }
+       
+     }
+
+    
+     
+    async function Data(value){
+        await Promise.resolve(verify())
+        await Promise.resolve(get())
+        .then(Action(value))
+       
+      }
+     
   
-]
+      
+      return Data(value)
+   },
+   Verify(){
+     if (localStorage.length == 0 ) {
+       this.init()
+     }
+   }
+
+}
+
+
+const FORMATACAO = {
+
+  formatarMoeda(value){
+
+      value = Number(value) / 100
+
+      value = value.toLocaleString('pt-BR',{
+        style:'currency',
+        currency:'BRL'
+      })
+      return value
+  }
+}
 
 
 const Table = {
   
   incomes(){
+   
+      
     
-    transGanho.forEach(item=>{
+    const Local = store.Get()[0]
+    
+      
+   
+    Local.forEach(item=>{
       
       const Amount = FORMATACAO.formatarMoeda(item.Amount)
       
@@ -56,13 +148,25 @@ const Table = {
       </tr>
       `
       tbody.appendChild(tr)
-    })  
+    } )  
     
     
   },
   expenses(){
+
+    if (localStorage.length == 0) {
+      store.init()
+    } else {
+      
     
-    transDespesa.forEach(item=>{
+
+
+    const local = store.Get()[1]
+
+    
+      
+    
+    local.forEach(item=>{
       
       const Amount = FORMATACAO.formatarMoeda(item.Amount)
       
@@ -84,7 +188,7 @@ const Table = {
       </tr>
       `
       tbody.appendChild(tr)
-    })  
+    })  }
     
   },
   cleartable(){
@@ -94,15 +198,21 @@ const Table = {
   }
 }
 
+
 const CaixasTotal = ()=>{
   
   const calc = (a , b)=> a - b;
 
-  const EntraAmounts = transGanho.map(item => item.Amount);
+  const Local1 = store.Get()[0]
+
+  const Local2 = store.Get()[1]
+
+
+  const EntraAmounts = Local1.map(item => item.Amount);
   const TotalEntra = EntraAmounts.reduce((acumulador , valoratual)=>acumulador+valoratual,0)
   const formatEntra = FORMATACAO.formatarMoeda(TotalEntra)
   
-  const DespAmounts = transDespesa.map(item=> item.Amount)
+  const DespAmounts = Local2.map(item=> item.Amount)
   const TotalDesp = DespAmounts.reduce((acumulador , valoratual)=> acumulador + valoratual , 0);
   const formatDesp = FORMATACAO.formatarMoeda(TotalDesp)
   
@@ -124,51 +234,6 @@ const CaixasTotal = ()=>{
   ${valortotal}
   `
 }
-
-const store = {
-  init(){
-
-    localStorage.setItem('Ganho', JSON.stringify([]))
-    localStorage.setItem('Despesa', JSON.stringify([]))
-
-  },
-
-  get(value){
-    
-    const verify = ()=>{
-      if (localStorage.length == 0) {
-        this.init()
-      }else{
-        if (value.idade == 25) {
-          const data = localStorage.getItem('Ganho')
-          
-          return JSON.parse(data)
-        } else {
-          const data = localStorage.getItem('Despesa')
-
-          return JSON.parse(data)
-        }
-      }
-     }
-     
-    async function Data(){
-         await Promise.resolve(verify())
-         await Promise.resolve(verify())
-         .then()
-      }
-  
-      return Data()
-   },
-  put(){
-   
-    
- }
-
-}
-
-//////Colocar uma funçao assincrona para colocar os dados
-store.get({name:'WERTON' , idade:25})
-
 
 
 function novosValores(){
@@ -197,12 +262,11 @@ function novosValores(){
   }
   
   if (Type =='ganho') {
+    store.Put(NewIncome)
     
-  
 }
  else {
- 
-  
+  store.Put(NewExpense)
   
 }
 
@@ -213,28 +277,13 @@ APP.reload()
 }
 
 
-
-
-const FORMATACAO = {
-
-  formatarMoeda(value){
-
-      value = Number(value) / 100
-
-      value = value.toLocaleString('pt-BR',{
-        style:'currency',
-        currency:'BRL'
-      })
-      return value
-  }
-}
-
 const APP = {
 
   init(){
-    Table.incomes()
-    Table.expenses()
-    CaixasTotal()
+  store.Verify()
+  Table.incomes()
+  Table.expenses()
+  CaixasTotal()
   },
   reload(){
     Table.cleartable()
@@ -247,8 +296,14 @@ const APP = {
 
 APP.init()
 
+//store.Put({Descricao: "App", Amount: 20000, Date: "20/01/2020", Tipo: "ganho"})
+//store.Put({
+  //Descricao:'Site',
+  //Amount:200000,
+ // Date:'23/02/2020',
+  //Tipo:'ganho',
 
-
+//})
 
 
 
