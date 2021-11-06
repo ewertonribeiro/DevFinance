@@ -1,0 +1,84 @@
+.container-xml{
+    background-color: rgb(19, 83, 29);
+    padding: 90px;
+}
+.container-sm{
+    color: whitesmoke;
+    text-align: center;
+    margin-top: -50px;
+}
+
+.container-xxl{
+    position: relative;
+    top: -60px;
+    padding: 20px;
+}
+
+
+@media screen and (max-width:750px) {
+    .container-display{
+        display: block;
+    }
+    .display{
+        margin-top: 15px;
+    }
+    #coluna3{
+      position: relative;
+      left: -50px
+    }
+}
+#colentrada{
+    padding-top: 40px;
+}
+#coluna1{
+    margin-right: 50px;
+    text-align: center;
+    border: 1px solid rgba(214, 214, 206, 0.7);
+    border-radius: 4px;
+    background-color: white;
+}
+#colsaida{
+    padding-top: 40px;
+}
+#coluna2{
+    color: white;
+    text-align: center;
+    border: 1px solid rgba(214, 214, 206, 0.7);
+    border-radius: 4px;
+    background-color: rgb(238, 41, 41);
+}
+#coltotal{
+    padding-top: 40px;
+}
+#coluna3{
+    margin-left: 50px; 
+    text-align: center;
+    border: 1px solid rgba(214, 214, 206, 0.7);
+    border-radius: 4px;
+    background-color: rgba(70, 202, 37,1.0 );
+    color: white;
+}
+.modal-header{
+    color: white;
+    text-align: center;
+    background-color: rgba(54, 214, 123, 0.8);
+}
+#table{
+    margin-top: 30px;
+}
+
+.bi{
+    color: red;
+    cursor: pointer;
+}
+
+.hover:hover{
+    box-shadow:3px 2px 46px 5px rgba(0,0,0,0.5);
+    color: seagreen;
+    cursor: pointer;
+}
+.hoverred:hover{
+    box-shadow:3px 2px 46px 5px rgba(0,0,0,0.5);
+    color: rgb(146, 7, 7);
+    cursor: pointer;
+}
