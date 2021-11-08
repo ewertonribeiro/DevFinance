@@ -20,6 +20,8 @@
         }, false)
       })
 })() 
+
+
 const store = {
   init(){
 
@@ -296,23 +298,6 @@ const APP = {
 
 APP.init()
 
-//store.Put({Descricao: "App", Amount: 20000, Date: "20/01/2020", Tipo: "ganho"})
-//store.Put({
-  //Descricao:'Site',
-  //Amount:200000,
- // Date:'23/02/2020',
-  //Tipo:'ganho',
 
-//})
-
-
-
-
-
-
-
-
-
-//localStorage.setItem("Ganho" , JSON.stringify([]))
 
 
