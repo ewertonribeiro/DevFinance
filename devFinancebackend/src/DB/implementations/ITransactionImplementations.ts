@@ -43,11 +43,11 @@ class TransactionRepository implements ITransactions{
         )VALUES(
           "${NewTransaction.description}",
           ${NewTransaction.amount},
-          "${NewTransaction.date}}",
+          "${NewTransaction.date}",
           "${NewTransaction.type}"
         )`);
 
-        await DB.close();
+        
 
            return NewTransaction
     };
@@ -59,7 +59,7 @@ class TransactionRepository implements ITransactions{
 
       const transactions:Transaction= await DB.all(`SELECT * FROM transactions`);
       
-      DB.close();
+      
 
       return transactions
     }
@@ -71,7 +71,7 @@ class TransactionRepository implements ITransactions{
 
       await DB.get(`DELETE FROM transactions WHERE id = ${id}`);
 
-      await DB.close();
+      
 
     }
 }

@@ -1,34 +1,38 @@
-import axios from 'axios';
+import {useEffect, useContext , useState} from 'react'
 
-import {useEffect , useState , useContext} from 'react';
+import {Api} from '../services/Api/Api'
+
+import {Transactions} from './index'
+
+import { TransactionContext} from '../Context/TransactionContext'
 
 
-
-import {Transactions} from './'
-
-interface TRANSACTION{
-  id:string, 
+interface Transaction{
+  id:string,
   description:string,
   date:string,
-  type:string,
-  amount:number
+  amount:number,
+  type:string
+
 }
 
 export function Table(){
 
-  
-const [transactions,setTransactions] = useState<TRANSACTION[]>([])
-
-useEffect(()=>{
-
-  axios.get("http://localhost:3001/transactions").then((res)=>{
-  
-
-    setTransactions(res.data);
-  })
+  const {transactions} =  useContext(TransactionContext)
 
 
-},[])
+  const [transaction , setTransaction] = useState<Transaction[]>([]);
+
+
+  useEffect( ()=>{
+    
+     Api.listAll().then((res)=>{
+      setTransaction(res)
+    })
+
+    
+  },[transactions])
+
 
     return(
         <table className="table table-striped container-xl" id="table">
@@ -41,19 +45,17 @@ useEffect(()=>{
           </tr>
         </thead>
         <tbody id="tbody">
-        {transactions.map(transaction=>{
-          return (
-
-            <Transactions
-            key={transaction.id}
-            description = {transaction.description}
-            amount = {transaction.amount}
-            type = {transaction.type}
-            date = {transaction.date}
-            />
-           
-          )
-        })}
+        {transaction.map( transaction =>{
+            return(
+                <Transactions
+                key={transaction.id}
+                description={transaction.description}
+                amount={transaction.amount}
+                date={transaction.date}
+                id={transaction.id}
+                />
+            )
+          })}
         </tbody>
       </table>
     )

@@ -2,9 +2,15 @@ import './styles/style.css'
 
 import {ShowDisplay , Table , TransactionModal} from './Components/'
 
+import {TransactionsContext} from './Context/TransactionContext'
+
+
 function App() {
+
+
   return (
-    <>
+    
+    <TransactionsContext>
     <header className="container-xml">
     
     <div className="container-sm">
@@ -24,7 +30,8 @@ function App() {
        
        </main>
    </section>
-  </>
+  </TransactionsContext>
+ 
   );
 }
 

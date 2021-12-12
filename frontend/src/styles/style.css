@@ -35,7 +35,8 @@
     text-align: center;
     border: 1px solid rgba(214, 214, 206, 0.7);
     border-radius: 4px;
-    background-color: white;
+    background-color:  rgba(70, 202, 37,1.0 );
+    color: white;
 }
 #colsaida{
     padding-top: 40px;
@@ -55,8 +56,8 @@
     text-align: center;
     border: 1px solid rgba(214, 214, 206, 0.7);
     border-radius: 4px;
-    background-color: rgba(70, 202, 37,1.0 );
-    color: white;
+    background-color:white;
+    color: rgb(34, 29, 29);
 }
 .modal-header{
     color: white;
@@ -74,11 +75,36 @@
 
 .hover:hover{
     box-shadow:3px 2px 46px 5px rgba(0,0,0,0.5);
-    color: seagreen;
     cursor: pointer;
 }
+
 .hoverred:hover{
     box-shadow:3px 2px 46px 5px rgba(0,0,0,0.5);
     color: rgb(146, 7, 7);
     cursor: pointer;
 }
+.green{
+    color: green;
+}
+.red{
+    color: red;
+}
+
+.normal{
+    color: black;
+}
+
+.modal-danger{
+    background-color:#dc3545
+}
+
+.error{
+    color: #dc3545;
+    border-bottom: 1px solid #dc3545;
+}
+
+.closeButton{
+    margin-left: 1rem;
+}
+
+
